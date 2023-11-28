@@ -26,6 +26,12 @@ public class ApiResponseDTO<T> {
         this.data = data;
     }
 
+    public ApiResponseDTO(T data, HttpStatus status) {
+        this.status = status.value();
+        this.success = status.is2xxSuccessful();
+        this.data = data;
+    }
+
     public ApiResponseDTO(String message, HttpStatus status) {
         this.message = message;
         this.status = status.value();

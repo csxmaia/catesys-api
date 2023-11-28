@@ -24,7 +24,7 @@ public class JwtServiceImpl implements JwtService {
     @Value("${jwt.secret}")
     private String secret;
 
-    @Value("jwt.expiration")
+    @Value("${jwt.expiration}")
     private String expiration;
 
     @Override
@@ -34,7 +34,7 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        return generateToken((Usuario) userDetails);
     }
 
 //    @Override
@@ -92,11 +92,11 @@ public class JwtServiceImpl implements JwtService {
         Map<String, Object> claims = objectMapper.convertValue(jwtContext, Map.class);
 
         return Jwts.builder()
-                .setIssuer("CXB_TOKEN")
+                .setIssuer("CATESYS_TOKEN")
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis()  + Long.parseLong(expiration)))
-                .signWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret))).compact();
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }
 
     private JwtContext generateTokenData(Usuario usuario) {
@@ -113,13 +113,6 @@ public class JwtServiceImpl implements JwtService {
         jwtContext.setUsuario(usuarioContext);
 
         return jwtContext;
-    }
-
-    private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-        return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()  + Long.parseLong(expiration)))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }
 
     private boolean isTokenExpired(String token) {
