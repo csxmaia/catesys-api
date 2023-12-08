@@ -49,4 +49,8 @@ public class ApiResponseDTO<T> {
     }
 
     public void setSuccess(boolean success) {}
+
+    public HttpStatus getHttpStatus() {
+        return HttpStatus.valueOf(this.status);
+    }
 }

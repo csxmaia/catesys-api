@@ -2,6 +2,7 @@ package com.br.catesysapi.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 @Setter
 @Table(name = "pessoa")
 @Inheritance(strategy = InheritanceType.JOINED)
+@NoArgsConstructor
 public class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,4 +33,17 @@ public class Pessoa {
 
     @Column(name = "telefone")
     private String telefone;
+
+    public Pessoa(Long id) {
+        this.id = id;
+    }
+
+    public Pessoa(Long id, String nome, String email, String cpf, LocalDate dataNascimento, String telefone) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.cpf = cpf;
+        this.dataNascimento = dataNascimento;
+        this.telefone = telefone;
+    }
 }

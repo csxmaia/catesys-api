@@ -8,4 +8,6 @@ import java.util.List;
 
 @Repository
 public interface AlunoRepository extends JpaRepository<Aluno, Long> {
+    List<Aluno> findAllByNomeContainingOrMatriculaContaining(String nome, Long matricula);
+    List<Aluno> findAllByNomeContaining(String nome);
 }

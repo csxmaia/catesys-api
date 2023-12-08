@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,13 +20,28 @@ public class AlunoController {
     final AlunoService alunoService;
 
     @GetMapping
-    public ResponseEntity<ApiResponseDTO<List<Aluno>>> alunos() {
-        List<Aluno> alunoList = alunoService.getAll();
+    public ResponseEntity<ApiResponseDTO<List<Aluno>>> alunos(@RequestParam(required = false) String term) {
+        List<Aluno> alunoList = new ArrayList<>();
+
+        if(term != null) {
+            alunoList = alunoService.getAllByTerm(term);
+        } else {
+            alunoList = alunoService.getAll();
+        }
 
         ApiResponseDTO responseDTO = new ApiResponseDTO(alunoList, HttpStatus.OK);
 
         return ResponseEntity.status(responseDTO.getStatus()).body(responseDTO);
     }
+
+   /* @GetMapping()
+    public ResponseEntity<ApiResponseDTO<List<Aluno>>> alunosBusca(@RequestParam String term) {
+        List<Aluno> alunoList = alunoService.getAllByTerm(term);
+
+        ApiResponseDTO responseDTO = new ApiResponseDTO(alunoList, HttpStatus.OK);
+
+        return ResponseEntity.status(responseDTO.getStatus()).body(responseDTO);
+    }*/
 
     @PostMapping
     public ResponseEntity<ApiResponseDTO<Aluno>> cadastrarAluno(@RequestBody CadastrarAlunoDTORequest cadastrarAlunoDTORequest) {

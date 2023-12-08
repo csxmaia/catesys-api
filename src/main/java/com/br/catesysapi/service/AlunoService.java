@@ -6,8 +6,8 @@ import com.br.catesysapi.repository.AlunoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,12 +16,44 @@ public class AlunoService {
 
     final AlunoRepository alunoRepository;
 
+    final PessoaService pessoaService;
+
     public List<Aluno> getAll() {
         List<Aluno> alunoList = alunoRepository.findAll();
         return alunoList;
     }
 
+    public List<Aluno> getAllByTerm(String term) {
+        Long matriculaTerm = null;
+
+        try {
+            matriculaTerm = Long.parseLong(term);
+        } catch (NumberFormatException e) {
+        }
+
+        List<Aluno> alunoList = new ArrayList<>();
+
+        if(matriculaTerm != null) {
+            alunoList = alunoRepository.findAllByNomeContainingOrMatriculaContaining(term, matriculaTerm);
+        } else {
+            alunoList = alunoRepository.findAllByNomeContaining(term);
+            alunoList.sort((a1, a2) -> {
+
+                if (a1.getNome().toLowerCase().startsWith(term.toLowerCase()) && !a2.getNome().toLowerCase().startsWith(term.toLowerCase())) {
+                    return -1;
+                } else if (!a1.getNome().toLowerCase().startsWith(term.toLowerCase()) && a2.getNome().toLowerCase().startsWith(term.toLowerCase())) {
+                    return 1;
+                }
+                return 0;
+            });
+        }
+
+        return alunoList;
+    }
+
     public Aluno criarAluno(CadastrarAlunoDTORequest cadastrarAlunoDTORequest) {
+        pessoaService.validarNovaPessoa(cadastrarAlunoDTORequest.getEmail(), cadastrarAlunoDTORequest.getCpf());
+
         Aluno aluno = new Aluno();
         aluno.setNome(cadastrarAlunoDTORequest.getNome());
         aluno.setEmail(cadastrarAlunoDTORequest.getEmail());
@@ -39,10 +71,10 @@ public class AlunoService {
     }
 
     private Long criarNumeroMatricula(Long idAluno) {
-        Long ano = (long) new Date().getYear();
+        Long ano = (long) LocalDate.now().getYear();
 
         Long quantidadeDe0 = (long) (5 - String.valueOf(idAluno).length());
-        String zeros = null;
+        String zeros = "";
         for(int i = 0; i < quantidadeDe0; i++) {
             zeros = zeros + "0";
         }
