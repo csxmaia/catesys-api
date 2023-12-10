@@ -1,6 +1,6 @@
 package com.br.catesysapi.service;
 
-import com.br.catesysapi.controller.aluno.request.CadastrarAlunoDTORequest;
+import com.br.catesysapi.controller.aluno.request.SalvarAlunoDTORequest;
 import com.br.catesysapi.entity.Aluno;
 import com.br.catesysapi.repository.AlunoRepository;
 import lombok.AllArgsConstructor;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -21,6 +22,14 @@ public class AlunoService {
     public List<Aluno> getAll() {
         List<Aluno> alunoList = alunoRepository.findAll();
         return alunoList;
+    }
+
+    public Aluno getById(Long id) {
+        Optional<Aluno> aluno = alunoRepository.findById(id);
+        if(aluno.isEmpty()) {
+            throw new RuntimeException("Aluno não encontrado");
+        }
+        return aluno.get();
     }
 
     public List<Aluno> getAllByTerm(String term) {
@@ -51,15 +60,15 @@ public class AlunoService {
         return alunoList;
     }
 
-    public Aluno criarAluno(CadastrarAlunoDTORequest cadastrarAlunoDTORequest) {
-        pessoaService.validarNovaPessoa(cadastrarAlunoDTORequest.getEmail(), cadastrarAlunoDTORequest.getCpf());
+    public Aluno criarAluno(SalvarAlunoDTORequest salvarAlunoDTORequest) {
+        pessoaService.validarNovaPessoa(salvarAlunoDTORequest.getEmail(), salvarAlunoDTORequest.getCpf());
 
         Aluno aluno = new Aluno();
-        aluno.setNome(cadastrarAlunoDTORequest.getNome());
-        aluno.setEmail(cadastrarAlunoDTORequest.getEmail());
-        aluno.setCpf(cadastrarAlunoDTORequest.getCpf());
-        aluno.setDataNascimento(cadastrarAlunoDTORequest.getDataNascimento());
-        aluno.setTelefone(cadastrarAlunoDTORequest.getTelefone());
+        aluno.setNome(salvarAlunoDTORequest.getNome());
+        aluno.setEmail(salvarAlunoDTORequest.getEmail());
+        aluno.setCpf(salvarAlunoDTORequest.getCpf());
+        aluno.setDataNascimento(salvarAlunoDTORequest.getDataNascimento());
+        aluno.setTelefone(salvarAlunoDTORequest.getTelefone());
 
         Aluno alunoCadastrado = alunoRepository.save(aluno);
 
@@ -68,6 +77,24 @@ public class AlunoService {
         alunoRepository.save(alunoCadastrado);
 
         return alunoCadastrado;
+    }
+
+    public Aluno editarAluno(SalvarAlunoDTORequest salvarAlunoDTORequest) {
+        Aluno aluno = new Aluno(salvarAlunoDTORequest.getId());
+
+        aluno.setNome(salvarAlunoDTORequest.getNome());
+        aluno.setEmail(salvarAlunoDTORequest.getEmail());
+        aluno.setCpf(salvarAlunoDTORequest.getCpf());
+        aluno.setDataNascimento(salvarAlunoDTORequest.getDataNascimento());
+        aluno.setTelefone(salvarAlunoDTORequest.getTelefone());
+
+        Aluno alunoAlterado = alunoRepository.save(aluno);
+
+        alunoAlterado.setMatricula(criarNumeroMatricula(alunoAlterado.getId()));
+
+        alunoRepository.save(alunoAlterado);
+
+        return alunoAlterado;
     }
 
     private Long criarNumeroMatricula(Long idAluno) {

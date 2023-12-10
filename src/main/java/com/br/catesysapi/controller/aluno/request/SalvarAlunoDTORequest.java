@@ -7,7 +7,8 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class CadastrarAlunoDTORequest {
+public class SalvarAlunoDTORequest {
+    private Long id;
     private String nome;
     private String email;
     private String cpf;

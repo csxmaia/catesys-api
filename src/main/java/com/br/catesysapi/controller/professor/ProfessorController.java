@@ -29,7 +29,7 @@ public class ProfessorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponseDTO<Turma>> buscarProfessorPeloId(@PathVariable Long id) {
+    public ResponseEntity<ApiResponseDTO<Professor>> buscarProfessorPeloId(@PathVariable Long id) {
         Professor professor = professorService.getById(id);
 
         ApiResponseDTO responseDTO = new ApiResponseDTO(professor, HttpStatus.OK);

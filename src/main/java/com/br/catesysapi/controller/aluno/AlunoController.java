@@ -1,6 +1,6 @@
 package com.br.catesysapi.controller.aluno;
 
-import com.br.catesysapi.controller.aluno.request.CadastrarAlunoDTORequest;
+import com.br.catesysapi.controller.aluno.request.SalvarAlunoDTORequest;
 import com.br.catesysapi.dto.ApiResponseDTO;
 import com.br.catesysapi.entity.Aluno;
 import com.br.catesysapi.service.AlunoService;
@@ -34,18 +34,23 @@ public class AlunoController {
         return ResponseEntity.status(responseDTO.getStatus()).body(responseDTO);
     }
 
-   /* @GetMapping()
-    public ResponseEntity<ApiResponseDTO<List<Aluno>>> alunosBusca(@RequestParam String term) {
-        List<Aluno> alunoList = alunoService.getAllByTerm(term);
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponseDTO<Aluno>> buscarAlunoPeloId(@PathVariable Long id) {
+        Aluno aluno = alunoService.getById(id);
 
-        ApiResponseDTO responseDTO = new ApiResponseDTO(alunoList, HttpStatus.OK);
+        ApiResponseDTO responseDTO = new ApiResponseDTO(aluno, HttpStatus.OK);
 
         return ResponseEntity.status(responseDTO.getStatus()).body(responseDTO);
-    }*/
+    }
 
     @PostMapping
-    public ResponseEntity<ApiResponseDTO<Aluno>> cadastrarAluno(@RequestBody CadastrarAlunoDTORequest cadastrarAlunoDTORequest) {
-        Aluno alunoCadastrado = alunoService.criarAluno(cadastrarAlunoDTORequest);
+    public ResponseEntity<ApiResponseDTO<Aluno>> salvarAluno(@RequestBody SalvarAlunoDTORequest salvarAlunoDTORequest) {
+        Aluno alunoCadastrado = null;
+        if(salvarAlunoDTORequest.getId() == null) {
+            alunoCadastrado = alunoService.criarAluno(salvarAlunoDTORequest);
+        } else {
+            alunoCadastrado = alunoService.editarAluno(salvarAlunoDTORequest);
+        }
 
         ApiResponseDTO responseDTO = new ApiResponseDTO(alunoCadastrado, HttpStatus.OK);
 
