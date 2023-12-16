@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -19,6 +21,9 @@ public class Aula {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "turma_id")
     private Turma turma;
+
+    @Column(name = "data_hora")
+    private LocalDateTime dataHora;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "aula_alunos",
