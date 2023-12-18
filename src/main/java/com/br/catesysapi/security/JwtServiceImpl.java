@@ -1,6 +1,7 @@
 package com.br.catesysapi.security;
 
 import com.br.catesysapi.entity.Usuario;
+import com.br.catesysapi.repository.UsuarioRepository;
 import com.br.catesysapi.security.context.JwtContext;
 import com.br.catesysapi.security.context.UsuarioContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,7 +10,10 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +22,28 @@ import java.util.*;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class JwtServiceImpl implements JwtService {
     ObjectMapper objectMapper = new ObjectMapper();
+
+    final UsuarioRepository usuarioRepository;
 
     @Value("${jwt.secret}")
     private String secret;
 
     @Value("${jwt.expiration}")
     private String expiration;
+
+    public UsuarioContext getUserFromContext() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return ((UsuarioContext) authentication.getPrincipal());
+    }
+
+    @Override
+    public Optional<Usuario> getUsuarioEntityFromContext() {
+        UsuarioContext usuarioContext = getUserFromContext();
+        return usuarioRepository.findById(usuarioContext.getId());
+    }
 
     @Override
     public String extractUserName(String token) {

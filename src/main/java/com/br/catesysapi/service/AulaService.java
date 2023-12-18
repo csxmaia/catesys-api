@@ -16,4 +16,9 @@ public class AulaService {
         List<Aula> aulaList = aulaRepository.findAll();
         return aulaList;
     }
+
+    public List<Aula> getAllByTurmaId(Long turmaId) {
+        List<Aula> aulaList = aulaRepository.findByTurma_Id(turmaId);
+        return aulaList;
+    }
 }

@@ -5,8 +5,11 @@ import com.br.catesysapi.dto.AlunoVO;
 import com.br.catesysapi.entity.Aluno;
 import com.br.catesysapi.entity.Professor;
 import com.br.catesysapi.entity.Turma;
+import com.br.catesysapi.entity.Usuario;
 import com.br.catesysapi.repository.ProfessorRepository;
 import com.br.catesysapi.repository.TurmaRepository;
+import com.br.catesysapi.security.JwtService;
+import com.br.catesysapi.security.TokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +24,19 @@ import java.util.Optional;
 public class TurmaService {
     final TurmaRepository turmaRepository;
     final ProfessorRepository professorRepository;
+    final JwtService jwtService;
 
     public List<Turma> getAll() {
         List<Turma> turmaList = turmaRepository.findAll();
+        return turmaList;
+    }
+
+    public List<Turma> getAllByProfessorLogado() {
+        Usuario usuario = jwtService.getUsuarioEntityFromContext().get();
+        List<Turma> turmaList = turmaRepository.findByProfessor_Id(usuario.getId());
+        if(turmaList.isEmpty()) {
+            throw new RuntimeException("Nenhuma turma encontrada");
+        }
         return turmaList;
     }
 
@@ -34,6 +47,7 @@ public class TurmaService {
         }
         return turma.get();
     }
+
 
     public Turma criarTurma(SalvarTurmaDTORequest salvarTurmaDTORequest) {
         Turma turma = new Turma();

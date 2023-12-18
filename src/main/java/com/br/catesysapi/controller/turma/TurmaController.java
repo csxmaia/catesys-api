@@ -27,6 +27,15 @@ public class TurmaController {
         return ResponseEntity.status(responseDTO.getStatus()).body(responseDTO);
     }
 
+    @GetMapping("/professor")
+    public ResponseEntity<ApiResponseDTO<List<Turma>>> buscarTurmasPeloProfessorLogado() {
+        List<Turma> turma = turmaService.getAllByProfessorLogado();
+
+        ApiResponseDTO responseDTO = new ApiResponseDTO(turma, HttpStatus.OK);
+
+        return ResponseEntity.status(responseDTO.getStatus()).body(responseDTO);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponseDTO<Turma>> buscarTurmaPeloId(@PathVariable Long id) {
         Turma turma = turmaService.getById(id);
