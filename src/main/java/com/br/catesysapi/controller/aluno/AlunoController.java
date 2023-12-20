@@ -43,6 +43,15 @@ public class AlunoController {
         return ResponseEntity.status(responseDTO.getStatus()).body(responseDTO);
     }
 
+    @GetMapping("/turma/{id}")
+    public ResponseEntity<ApiResponseDTO<Aluno>> buscarAlunosPeloTurmaId(@PathVariable Long id) {
+        List<Aluno> alunoList = alunoService.getAllByTurmaId(id);
+
+        ApiResponseDTO responseDTO = new ApiResponseDTO(alunoList, HttpStatus.OK);
+
+        return ResponseEntity.status(responseDTO.getStatus()).body(responseDTO);
+    }
+
     @PostMapping
     public ResponseEntity<ApiResponseDTO<Aluno>> salvarAluno(@RequestBody SalvarAlunoDTORequest salvarAlunoDTORequest) {
         Aluno alunoCadastrado = null;

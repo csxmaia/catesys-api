@@ -24,6 +24,11 @@ public class AlunoService {
         return alunoList;
     }
 
+    public List<Aluno> getAllByTurmaId(Long turmaId) {
+        List<Aluno> alunoList = alunoRepository.findAllAlunoByTurma_Id(turmaId);
+        return alunoList;
+    }
+
     public Aluno getById(Long id) {
         Optional<Aluno> aluno = alunoRepository.findById(id);
         if(aluno.isEmpty()) {
