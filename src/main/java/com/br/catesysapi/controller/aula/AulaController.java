@@ -34,4 +34,13 @@ public class AulaController {
 
         return ResponseEntity.status(responseDTO.getStatus()).body(responseDTO);
     }
+
+    @GetMapping("/{aulaId}/presenca/{alunoId}")
+    public ResponseEntity<ApiResponseDTO<List<Aula>>> aulasByTurmaId(@PathVariable Long aulaId, @PathVariable Long alunoId) {
+        aulaService.registrarPresenca(aulaId, alunoId);
+
+        ApiResponseDTO responseDTO = new ApiResponseDTO(HttpStatus.OK);
+
+        return ResponseEntity.status(responseDTO.getStatus()).body(responseDTO);
+    }
 }

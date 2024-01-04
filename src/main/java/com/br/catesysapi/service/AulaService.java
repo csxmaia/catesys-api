@@ -21,4 +21,8 @@ public class AulaService {
         List<Aula> aulaList = aulaRepository.findByTurma_Id(turmaId);
         return aulaList;
     }
+
+    public void registrarPresenca(Long aulaId, Long alunoId) {
+        aulaRepository.saveAulaAluno(aulaId, alunoId);
+    }
 }
