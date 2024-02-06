@@ -1,4 +1,4 @@
-package com.br.catesysapi.entity;
+package com.br.catesysapi.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -33,6 +33,17 @@ public class Pessoa {
 
     @Column(name = "telefone")
     private String telefone;
+
+    @Column
+    private String rua;
+    @Column
+    private String numero;
+    @Column
+    private String bairro;
+    @Column
+    private String complemento;
+    @Column
+    private String cidade;
 
     public Pessoa(Long id) {
         this.id = id;

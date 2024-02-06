@@ -2,7 +2,7 @@ package com.br.catesysapi.controller.aluno;
 
 import com.br.catesysapi.controller.aluno.request.SalvarAlunoDTORequest;
 import com.br.catesysapi.dto.ApiResponseDTO;
-import com.br.catesysapi.entity.Aluno;
+import com.br.catesysapi.domain.entity.Aluno;
 import com.br.catesysapi.service.AlunoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

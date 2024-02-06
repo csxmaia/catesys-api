@@ -1,7 +1,7 @@
 package com.br.catesysapi.service;
 
 import com.br.catesysapi.controller.professor.request.SalvarProfessorDTORequest;
-import com.br.catesysapi.entity.Professor;
+import com.br.catesysapi.domain.entity.Professor;
 import com.br.catesysapi.repository.ProfessorRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.br.catesysapi.entity;
+package com.br.catesysapi.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

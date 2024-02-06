@@ -1,6 +1,6 @@
 package com.br.catesysapi.security.context;
 
-import com.br.catesysapi.entity.Usuario;
+import com.br.catesysapi.domain.entity.Usuario;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;

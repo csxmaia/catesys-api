@@ -1,6 +1,6 @@
 package com.br.catesysapi.security;
 
-import com.br.catesysapi.entity.Usuario;
+import com.br.catesysapi.domain.entity.Usuario;
 import com.br.catesysapi.security.context.UsuarioContext;
 import org.springframework.security.core.userdetails.UserDetails;
 

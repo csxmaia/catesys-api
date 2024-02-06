@@ -1,6 +1,7 @@
-package com.br.catesysapi.dto;
+package com.br.catesysapi.domain.vo;
 
-import com.br.catesysapi.entity.Aluno;
+import com.br.catesysapi.domain.entity.Aluno;
+import com.br.catesysapi.dto.PessoaVO;
 import lombok.Getter;
 import lombok.Setter;
 

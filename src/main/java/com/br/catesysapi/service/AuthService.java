@@ -2,7 +2,7 @@ package com.br.catesysapi.service;
 
 import com.br.catesysapi.controller.auth.request.LoginDTORequest;
 import com.br.catesysapi.controller.auth.response.TokenDTOResponse;
-import com.br.catesysapi.entity.Usuario;
+import com.br.catesysapi.domain.entity.Usuario;
 import com.br.catesysapi.security.JwtService;
 import com.br.catesysapi.security.TokenService;
 import lombok.AllArgsConstructor;

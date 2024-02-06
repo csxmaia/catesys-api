@@ -1,6 +1,6 @@
 package com.br.catesysapi.controller.turma.request;
 
-import com.br.catesysapi.dto.AlunoVO;
+import com.br.catesysapi.domain.vo.AlunoVO;
 import lombok.Getter;
 import lombok.Setter;
 

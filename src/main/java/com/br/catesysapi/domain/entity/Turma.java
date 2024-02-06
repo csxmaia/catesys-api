@@ -1,4 +1,4 @@
-package com.br.catesysapi.entity;
+package com.br.catesysapi.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collection;
 
 @Entity
 @Getter
@@ -29,11 +27,11 @@ public class Turma {
     @Column(name = "horario")
     private LocalTime horario;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "turma_alunos",
-            joinColumns = @JoinColumn(name = "turma_id"),
-            inverseJoinColumns = @JoinColumn(name = "aluno_id"))
-    private Collection<Aluno> alunos = new ArrayList<>();
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(name = "turma_alunos",
+//            joinColumns = @JoinColumn(name = "turma_id"),
+//            inverseJoinColumns = @JoinColumn(name = "aluno_id"))
+//    private Collection<Aluno> alunos = new ArrayList<>();
 
     public Turma(Long id) {
         this.id = id;

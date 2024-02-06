@@ -2,7 +2,7 @@ package com.br.catesysapi.controller.turma;
 
 import com.br.catesysapi.controller.turma.request.SalvarTurmaDTORequest;
 import com.br.catesysapi.dto.ApiResponseDTO;
-import com.br.catesysapi.entity.Turma;
+import com.br.catesysapi.domain.entity.Turma;
 import com.br.catesysapi.service.TurmaService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

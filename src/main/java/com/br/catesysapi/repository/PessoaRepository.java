@@ -1,6 +1,6 @@
 package com.br.catesysapi.repository;
 
-import com.br.catesysapi.entity.Pessoa;
+import com.br.catesysapi.domain.entity.Pessoa;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package com.br.catesysapi.security;
 
-import com.br.catesysapi.entity.Usuario;
+import com.br.catesysapi.domain.entity.Usuario;
 import com.br.catesysapi.security.context.JwtContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;

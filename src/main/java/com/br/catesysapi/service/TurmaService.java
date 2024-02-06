@@ -1,15 +1,15 @@
 package com.br.catesysapi.service;
 
 import com.br.catesysapi.controller.turma.request.SalvarTurmaDTORequest;
-import com.br.catesysapi.dto.AlunoVO;
-import com.br.catesysapi.entity.Aluno;
-import com.br.catesysapi.entity.Professor;
-import com.br.catesysapi.entity.Turma;
-import com.br.catesysapi.entity.Usuario;
+import com.br.catesysapi.domain.vo.AlunoVO;
+import com.br.catesysapi.domain.entity.Aluno;
+import com.br.catesysapi.domain.entity.Professor;
+import com.br.catesysapi.domain.entity.Turma;
+import com.br.catesysapi.domain.entity.Usuario;
+import com.br.catesysapi.repository.AlunoRepository;
 import com.br.catesysapi.repository.ProfessorRepository;
 import com.br.catesysapi.repository.TurmaRepository;
 import com.br.catesysapi.security.JwtService;
-import com.br.catesysapi.security.TokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +24,14 @@ import java.util.Optional;
 public class TurmaService {
     final TurmaRepository turmaRepository;
     final ProfessorRepository professorRepository;
+    final AlunoRepository alunoRepository;
     final JwtService jwtService;
 
     public List<Turma> getAll() {
         List<Turma> turmaList = turmaRepository.findAll();
+
+        
+
         return turmaList;
     }
 
@@ -57,40 +61,57 @@ public class TurmaService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         LocalTime horario = LocalTime.parse(salvarTurmaDTORequest.getHorario(), formatter);
 
-        List<Aluno> alunos = new ArrayList<>();
-        for(AlunoVO alunoVO: salvarTurmaDTORequest.getAlunos()) {
-            alunos.add(new Aluno(alunoVO.getId()));
-        }
-
         turma.setDiaSemana(salvarTurmaDTORequest.getDiaSemana());
         turma.setProfessor(professor.get());
         turma.setHorario(horario);
-        turma.setAlunos(alunos);
 
         Turma turmaCadastrada = turmaRepository.save(turma);
+
+        List<Long> alunosIdsParaAdiconarNaTurma = new ArrayList<>();
+        for(AlunoVO alunoVO: salvarTurmaDTORequest.getAlunos()) {
+            alunosIdsParaAdiconarNaTurma.add(alunoVO.getId());
+        }
+
+        alunoRepository.saveAlunosTurma(alunosIdsParaAdiconarNaTurma, turmaCadastrada.getId());
 
         return turmaCadastrada;
     }
 
     public Turma editarTurma(SalvarTurmaDTORequest salvarTurmaDTORequest) {
         Turma turma = new Turma(salvarTurmaDTORequest.getId());
+        List<Aluno> alunosTurma = alunoRepository.findByTurma_Id(turma.getId());
 
         Optional<Professor> professor = professorRepository.findById(salvarTurmaDTORequest.getProfessorId());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         LocalTime horario = LocalTime.parse(salvarTurmaDTORequest.getHorario(), formatter);
 
-        List<Aluno> alunos = new ArrayList<>();
-        for(AlunoVO alunoVO: salvarTurmaDTORequest.getAlunos()) {
-            alunos.add(new Aluno(alunoVO.getId()));
-        }
-
         turma.setDiaSemana(salvarTurmaDTORequest.getDiaSemana());
         turma.setProfessor(professor.get());
         turma.setHorario(horario);
-        turma.setAlunos(alunos);
 
         Turma turmaEditada = turmaRepository.save(turma);
+
+        List<Long> alunosIdsParaAdiconarNaTurma = new ArrayList<>();
+        for(AlunoVO alunoVO: salvarTurmaDTORequest.getAlunos()) {
+            alunosIdsParaAdiconarNaTurma.add(alunoVO.getId());
+        }
+
+        List<Long> alunosIdsParaRemoverDaTurma = new ArrayList<>();
+        for(Aluno alunoTurma: alunosTurma) {
+            boolean found = false;
+            for(AlunoVO alunoTurmaVO: salvarTurmaDTORequest.getAlunos()) {
+                if(alunoTurmaVO.getId() == alunoTurma.getId()) {
+                    found = true;
+                }
+            }
+            if(found == false) {
+                alunosIdsParaRemoverDaTurma.add(alunoTurma.getId());
+            }
+        }
+
+        alunoRepository.saveAlunosTurma(alunosIdsParaAdiconarNaTurma, turmaEditada.getId());
+        alunoRepository.saveAlunosTurma(alunosIdsParaRemoverDaTurma, null);
 
         return turmaEditada;
     }

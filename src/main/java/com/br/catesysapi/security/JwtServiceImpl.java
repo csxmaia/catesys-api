@@ -1,6 +1,6 @@
 package com.br.catesysapi.security;
 
-import com.br.catesysapi.entity.Usuario;
+import com.br.catesysapi.domain.entity.Usuario;
 import com.br.catesysapi.repository.UsuarioRepository;
 import com.br.catesysapi.security.context.JwtContext;
 import com.br.catesysapi.security.context.UsuarioContext;

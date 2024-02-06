@@ -10,8 +10,15 @@ import java.time.LocalDate;
 public class SalvarAlunoDTORequest {
     private Long id;
     private String nome;
-    private String email;
-    private String cpf;
-    private LocalDate dataNascimento;
     private String telefone;
+    private LocalDate dataNascimento;
+    private LocalDate batizadoData;
+    private String batizadoParoquia;
+    private String condicaoSaudeComportamental;
+    private String rua;
+    private String numero;
+    private String bairro;
+    private String complemento;
+    private String cidade;
+    private Long turmaId;
 }

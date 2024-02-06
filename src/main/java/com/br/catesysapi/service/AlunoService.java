@@ -1,7 +1,8 @@
 package com.br.catesysapi.service;
 
 import com.br.catesysapi.controller.aluno.request.SalvarAlunoDTORequest;
-import com.br.catesysapi.entity.Aluno;
+import com.br.catesysapi.domain.entity.Aluno;
+import com.br.catesysapi.domain.entity.Turma;
 import com.br.catesysapi.repository.AlunoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class AlunoService {
     }
 
     public List<Aluno> getAllByTurmaId(Long turmaId) {
-        List<Aluno> alunoList = alunoRepository.findAllAlunoByTurma_Id(turmaId);
+        List<Aluno> alunoList = alunoRepository.findByTurma_Id(turmaId);
         return alunoList;
     }
 
@@ -66,14 +67,19 @@ public class AlunoService {
     }
 
     public Aluno criarAluno(SalvarAlunoDTORequest salvarAlunoDTORequest) {
-        pessoaService.validarNovaPessoa(salvarAlunoDTORequest.getEmail(), salvarAlunoDTORequest.getCpf());
-
         Aluno aluno = new Aluno();
         aluno.setNome(salvarAlunoDTORequest.getNome());
-        aluno.setEmail(salvarAlunoDTORequest.getEmail());
-        aluno.setCpf(salvarAlunoDTORequest.getCpf());
-        aluno.setDataNascimento(salvarAlunoDTORequest.getDataNascimento());
         aluno.setTelefone(salvarAlunoDTORequest.getTelefone());
+        aluno.setDataNascimento(salvarAlunoDTORequest.getDataNascimento());
+        aluno.setBatizadoData(salvarAlunoDTORequest.getBatizadoData());
+        aluno.setBatizadoParoquia(salvarAlunoDTORequest.getBatizadoParoquia());
+        aluno.setCondicaoSaudeComportamental(salvarAlunoDTORequest.getCondicaoSaudeComportamental());
+        aluno.setRua(salvarAlunoDTORequest.getRua());
+        aluno.setNumero(salvarAlunoDTORequest.getNumero());
+        aluno.setBairro(salvarAlunoDTORequest.getBairro());
+        aluno.setComplemento(salvarAlunoDTORequest.getComplemento());
+        aluno.setCidade(salvarAlunoDTORequest.getCidade());
+        aluno.setTurma(new Turma(salvarAlunoDTORequest.getId()));
 
         Aluno alunoCadastrado = alunoRepository.save(aluno);
 
@@ -88,10 +94,16 @@ public class AlunoService {
         Aluno aluno = new Aluno(salvarAlunoDTORequest.getId());
 
         aluno.setNome(salvarAlunoDTORequest.getNome());
-        aluno.setEmail(salvarAlunoDTORequest.getEmail());
-        aluno.setCpf(salvarAlunoDTORequest.getCpf());
-        aluno.setDataNascimento(salvarAlunoDTORequest.getDataNascimento());
         aluno.setTelefone(salvarAlunoDTORequest.getTelefone());
+        aluno.setDataNascimento(salvarAlunoDTORequest.getDataNascimento());
+        aluno.setBatizadoData(salvarAlunoDTORequest.getBatizadoData());
+        aluno.setBatizadoParoquia(salvarAlunoDTORequest.getBatizadoParoquia());
+        aluno.setCondicaoSaudeComportamental(salvarAlunoDTORequest.getCondicaoSaudeComportamental());
+        aluno.setRua(salvarAlunoDTORequest.getRua());
+        aluno.setNumero(salvarAlunoDTORequest.getNumero());
+        aluno.setBairro(salvarAlunoDTORequest.getBairro());
+        aluno.setComplemento(salvarAlunoDTORequest.getComplemento());
+        aluno.setCidade(salvarAlunoDTORequest.getCidade());
 
         Aluno alunoAlterado = alunoRepository.save(aluno);
 

@@ -1,6 +1,6 @@
 package com.br.catesysapi.repository;
 
-import com.br.catesysapi.entity.Aula;
+import com.br.catesysapi.domain.entity.Aula;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

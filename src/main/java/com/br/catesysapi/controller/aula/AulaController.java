@@ -1,7 +1,7 @@
 package com.br.catesysapi.controller.aula;
 
 import com.br.catesysapi.dto.ApiResponseDTO;
-import com.br.catesysapi.entity.Aula;
+import com.br.catesysapi.domain.entity.Aula;
 import com.br.catesysapi.service.AulaService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,6 @@
 package com.br.catesysapi.service;
 
-import com.br.catesysapi.entity.Pessoa;
+import com.br.catesysapi.domain.entity.Pessoa;
 import com.br.catesysapi.exception.ValidationException;
 import com.br.catesysapi.repository.PessoaRepository;
 import lombok.AllArgsConstructor;

@@ -2,8 +2,7 @@ package com.br.catesysapi.controller.professor;
 
 import com.br.catesysapi.controller.professor.request.SalvarProfessorDTORequest;
 import com.br.catesysapi.dto.ApiResponseDTO;
-import com.br.catesysapi.entity.Professor;
-import com.br.catesysapi.entity.Turma;
+import com.br.catesysapi.domain.entity.Professor;
 import com.br.catesysapi.service.ProfessorService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,6 @@
 package com.br.catesysapi.service;
 
-import com.br.catesysapi.entity.Aula;
+import com.br.catesysapi.domain.entity.Aula;
 import com.br.catesysapi.repository.AulaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
