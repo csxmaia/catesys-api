@@ -24,4 +24,9 @@ public interface AlunoRepository extends JpaRepository<Aluno, Long> {
     @Query(value = "UPDATE aluno SET turma_id = :turmaId WHERE id IN (:alunoIds)", nativeQuery = true)
     void saveAlunosTurma(List<Long> alunoIds, Long turmaId);
 
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT INTO evento_alunos(aluno_id, evento_id) VALUES (:alunoId, :eventoId)", nativeQuery = true)
+    void saveAlunoEvento(Long alunoId, Long eventoId);
+
 }

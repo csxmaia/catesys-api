@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @Setter
 public class SalvarAlunoDTORequest {
     private Long id;
+    private String fotoBase64;
     private String nome;
     private String telefone;
     private LocalDate dataNascimento;

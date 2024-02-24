@@ -16,7 +16,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String username) {
-                return usuarioRepository.findUsuarioByPessoaEmail(username)
+                return usuarioRepository.findUsuarioByPessoaCpf(username)
                         .orElseThrow(() -> new UsernameNotFoundException("User not found"));
             }
         };

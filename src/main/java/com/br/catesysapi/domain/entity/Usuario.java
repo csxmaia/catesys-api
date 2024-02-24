@@ -48,7 +48,7 @@ public class Usuario implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getAuthority()));
+            authorities.add(new SimpleGrantedAuthority(role.getNome()));
         }
         return authorities;
     }

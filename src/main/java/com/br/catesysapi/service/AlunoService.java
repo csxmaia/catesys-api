@@ -7,8 +7,13 @@ import com.br.catesysapi.repository.AlunoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,8 +71,9 @@ public class AlunoService {
         return alunoList;
     }
 
-    public Aluno criarAluno(SalvarAlunoDTORequest salvarAlunoDTORequest) {
+    public Aluno criarAluno(SalvarAlunoDTORequest salvarAlunoDTORequest) throws IOException {
         Aluno aluno = new Aluno();
+
         aluno.setNome(salvarAlunoDTORequest.getNome());
         aluno.setTelefone(salvarAlunoDTORequest.getTelefone());
         aluno.setDataNascimento(salvarAlunoDTORequest.getDataNascimento());
@@ -85,13 +91,15 @@ public class AlunoService {
 
         alunoCadastrado.setMatricula(criarNumeroMatricula(alunoCadastrado.getId()));
 
+        inserirImagemAluno(salvarAlunoDTORequest.getFotoBase64(), alunoCadastrado);
+
         alunoRepository.save(alunoCadastrado);
 
         return alunoCadastrado;
     }
 
-    public Aluno editarAluno(SalvarAlunoDTORequest salvarAlunoDTORequest) {
-        Aluno aluno = new Aluno(salvarAlunoDTORequest.getId());
+    public Aluno editarAluno(SalvarAlunoDTORequest salvarAlunoDTORequest) throws IOException {
+        Aluno aluno = alunoRepository.findById(salvarAlunoDTORequest.getId()).get();
 
         aluno.setNome(salvarAlunoDTORequest.getNome());
         aluno.setTelefone(salvarAlunoDTORequest.getTelefone());
@@ -104,10 +112,11 @@ public class AlunoService {
         aluno.setBairro(salvarAlunoDTORequest.getBairro());
         aluno.setComplemento(salvarAlunoDTORequest.getComplemento());
         aluno.setCidade(salvarAlunoDTORequest.getCidade());
+        aluno.setTurma(new Turma(salvarAlunoDTORequest.getId()));
 
         Aluno alunoAlterado = alunoRepository.save(aluno);
 
-        alunoAlterado.setMatricula(criarNumeroMatricula(alunoAlterado.getId()));
+        inserirImagemAluno(salvarAlunoDTORequest.getFotoBase64(), alunoAlterado);
 
         alunoRepository.save(alunoAlterado);
 
@@ -126,6 +135,26 @@ public class AlunoService {
         String matricula = String.valueOf(ano) + zeros + String.valueOf(idAluno);
 
         return Long.parseLong(matricula);
+    }
+
+    private void inserirImagemAluno(String fotoBase64, Aluno aluno) throws IOException {
+        byte[] decodedBytes = Base64.getDecoder().decode(fotoBase64.getBytes(StandardCharsets.UTF_8));
+
+        String directoryPath = "src/main/resources/static/images";
+        if (!Files.exists(Paths.get(directoryPath))) {
+            Files.createDirectories(Paths.get(directoryPath));
+        }
+
+        String fileName = aluno.getMatricula().toString() + ".png";
+
+        File file = new File(directoryPath, fileName);
+
+        try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file))) {
+            bos.write(decodedBytes);
+            aluno.setFotoUrl(fileName);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

@@ -35,6 +35,9 @@ public class Pessoa {
     private String telefone;
 
     @Column
+    private String fotoUrl;
+
+    @Column
     private String rua;
     @Column
     private String numero;

@@ -1,11 +1,17 @@
 package com.br.catesysapi.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.Base64;
 
 @Entity
 @Getter
@@ -23,7 +29,6 @@ public class Aluno extends Pessoa{
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "turma_id")
     private Turma turma;
-
 
     public boolean isBatizado() {
         if(batizadoData != null || batizadoParoquia != null) {
