@@ -18,12 +18,12 @@ public class ProfessorService {
     final PessoaService pessoaService;
 
     public List<Professor> getAll() {
-        List<Professor> professorList = professorRepository.findAll();
+        List<Professor> professorList = professorRepository.findAllByAtivoTrueOrderByIdDesc();
         return professorList;
     }
 
     public Professor getById(Long id) {
-        Optional<Professor> professor = professorRepository.findById(id);
+        Optional<Professor> professor = professorRepository.findByIdAndAtivoTrue(id);
         if(professor.isEmpty()) {
             throw new RuntimeException("Professor não encontrado");
         }
@@ -59,5 +59,16 @@ public class ProfessorService {
         return professorEditado;
     }
 
+    public void inativarProfessor(Long id) {
+        Optional<Professor> professor = professorRepository.findById(id);
+
+        if(professor.isEmpty()) {
+            throw new RuntimeException("Professor não encontrado");
+        }
+
+        professor.get().setAtivo(false);
+
+        professorRepository.save(professor.get());
+    }
 
 }

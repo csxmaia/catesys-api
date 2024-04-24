@@ -2,6 +2,7 @@ package com.br.catesysapi.controller.evento;
 
 import com.br.catesysapi.controller.evento.request.RegistrarPresencaAlunoRequest;
 import com.br.catesysapi.controller.evento.request.SalvarEventoRequest;
+import com.br.catesysapi.domain.entity.Aluno;
 import com.br.catesysapi.domain.entity.Evento;
 import com.br.catesysapi.dto.ApiResponseDTO;
 import com.br.catesysapi.service.EventoService;
@@ -56,6 +57,13 @@ public class EventoController {
     public ResponseEntity<ApiResponseDTO> eventosNaoFinalizados(@PathVariable Long eventoId) {
         eventoService.finalizarEvento(eventoId);
         ApiResponseDTO responseDTO = new ApiResponseDTO("Evento finalizado", HttpStatus.OK);
+        return ResponseEntity.status(responseDTO.getStatus()). body(responseDTO);
+    }
+
+    @GetMapping("/{eventoId}/alunos")
+    public ResponseEntity<ApiResponseDTO> buscarAlunosPresentesNoEventoPorId(@PathVariable Long eventoId) {
+        List<Aluno> alunos = eventoService.getAllAlunosPresentes(eventoId);
+        ApiResponseDTO responseDTO = new ApiResponseDTO(alunos, HttpStatus.OK);
         return ResponseEntity.status(responseDTO.getStatus()). body(responseDTO);
     }
 }

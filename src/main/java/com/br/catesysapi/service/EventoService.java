@@ -1,6 +1,7 @@
 package com.br.catesysapi.service;
 
 import com.br.catesysapi.controller.evento.request.SalvarEventoRequest;
+import com.br.catesysapi.domain.entity.Aluno;
 import com.br.catesysapi.domain.entity.Evento;
 import com.br.catesysapi.repository.AlunoRepository;
 import com.br.catesysapi.repository.EventoRepository;
@@ -39,5 +40,9 @@ public class EventoService {
 
     public void finalizarEvento(Long eventoId) {
         eventoRepository.finalizarEvento(eventoId);
+    }
+
+    public List<Aluno> getAllAlunosPresentes(Long eventoId) {
+        return alunoRepository.alunosPresentesEvento(eventoId);
     }
 }

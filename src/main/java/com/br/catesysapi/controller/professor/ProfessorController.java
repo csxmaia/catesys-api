@@ -50,4 +50,13 @@ public class ProfessorController {
 
         return ResponseEntity.status(responseDTO.getStatus()).body(responseDTO);
     }
+
+    @PostMapping("/{id}/inativar")
+    public ResponseEntity<ApiResponseDTO<Void>> inativarProfessor(@PathVariable Long id) {
+        professorService.inativarProfessor(id);
+
+        ApiResponseDTO responseDTO = new ApiResponseDTO("Professor inativado com sucesso", HttpStatus.OK);
+
+        return ResponseEntity.status(responseDTO.getStatus()).body(responseDTO);
+    }
 }

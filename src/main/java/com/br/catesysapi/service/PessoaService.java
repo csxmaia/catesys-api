@@ -14,14 +14,18 @@ public class PessoaService {
     final PessoaRepository pessoaRepository;
 
     public void validarNovaPessoa(String email, String cpf) {
-        Optional<Pessoa> pessoaByEmail = pessoaRepository.findPessoaByEmail(email);
-        if(pessoaByEmail.isPresent()) {
-            throw new ValidationException("Email já utilizado");
+        if(email != null) {
+            Optional<Pessoa> pessoaByEmail = pessoaRepository.findPessoaByEmailAndAtivoTrue(email);
+            if(pessoaByEmail.isPresent()) {
+                throw new ValidationException("Email já utilizado");
+            }
         }
 
-        Optional<Pessoa> pessoaByCpf = pessoaRepository.findPessoaByCpf(cpf);
-        if(pessoaByCpf.isPresent()) {
-            throw new ValidationException("CPF já utilizado");
+        if(cpf != null) {
+            Optional<Pessoa> pessoaByCpf = pessoaRepository.findPessoaByCpfAndAtivoTrue(cpf);
+            if(pessoaByCpf.isPresent()) {
+                throw new ValidationException("CPF já utilizado");
+            }
         }
     }
 }

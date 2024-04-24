@@ -47,6 +47,8 @@ public class Pessoa {
     private String complemento;
     @Column
     private String cidade;
+    @Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
+    private Boolean ativo = true;
 
     public Pessoa(Long id) {
         this.id = id;

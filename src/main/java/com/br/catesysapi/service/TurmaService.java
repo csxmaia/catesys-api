@@ -28,9 +28,7 @@ public class TurmaService {
     final JwtService jwtService;
 
     public List<Turma> getAll() {
-        List<Turma> turmaList = turmaRepository.findAll();
-
-        
+        List<Turma> turmaList = turmaRepository.findAllByOrderByIdDesc();
 
         return turmaList;
     }
@@ -111,6 +109,7 @@ public class TurmaService {
         }
 
         alunoRepository.saveAlunosTurma(alunosIdsParaAdiconarNaTurma, turmaEditada.getId());
+        // filtrar por aluno id e turma id para remover
         alunoRepository.saveAlunosTurma(alunosIdsParaRemoverDaTurma, null);
 
         return turmaEditada;
