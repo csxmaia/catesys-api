@@ -54,13 +54,17 @@ public class TurmaService {
     public Turma criarTurma(SalvarTurmaDTORequest salvarTurmaDTORequest) {
         Turma turma = new Turma();
 
-        Optional<Professor> professor = professorRepository.findById(salvarTurmaDTORequest.getProfessorId());
+        if(salvarTurmaDTORequest.getProfessorId() != null) {
+            Optional<Professor> professor = professorRepository.findById(salvarTurmaDTORequest.getProfessorId());
+            if(professor.isPresent()) {
+                turma.setProfessor(professor.get());
+            }
+        }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         LocalTime horario = LocalTime.parse(salvarTurmaDTORequest.getHorario(), formatter);
 
         turma.setDiaSemana(salvarTurmaDTORequest.getDiaSemana());
-        turma.setProfessor(professor.get());
         turma.setHorario(horario);
 
         Turma turmaCadastrada = turmaRepository.save(turma);
