@@ -54,6 +54,8 @@ public class TurmaService {
     public Turma criarTurma(SalvarTurmaDTORequest salvarTurmaDTORequest) {
         Turma turma = new Turma();
 
+        turma.setEtapa(salvarTurmaDTORequest.getEtapa());
+
         if(salvarTurmaDTORequest.getProfessorId() != null) {
             Optional<Professor> professor = professorRepository.findById(salvarTurmaDTORequest.getProfessorId());
             if(professor.isPresent()) {
@@ -82,6 +84,8 @@ public class TurmaService {
     public Turma editarTurma(SalvarTurmaDTORequest salvarTurmaDTORequest) {
         Turma turma = new Turma(salvarTurmaDTORequest.getId());
         List<Aluno> alunosTurma = alunoRepository.findByTurma_Id(turma.getId());
+
+        turma.setEtapa(salvarTurmaDTORequest.getEtapa());
 
         Optional<Professor> professor = professorRepository.findById(salvarTurmaDTORequest.getProfessorId());
 

@@ -10,8 +10,9 @@ import java.util.List;
 @Setter
 public class SalvarTurmaDTORequest {
     private Long id;
+    private String etapa;
+    private Long professorId;
     private String diaSemana;
     private String horario;
-    private Long professorId;
     private List<AlunoVO> alunos;
 }

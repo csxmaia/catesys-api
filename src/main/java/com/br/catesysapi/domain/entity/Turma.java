@@ -17,6 +17,9 @@ public class Turma {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "etapa")
+    private String etapa;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "professor_id")
     private Professor professor;

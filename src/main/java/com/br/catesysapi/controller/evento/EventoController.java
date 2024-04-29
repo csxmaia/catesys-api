@@ -54,7 +54,7 @@ public class EventoController {
     }
 
     @PostMapping("/finalizarEvento/{eventoId}")
-    public ResponseEntity<ApiResponseDTO> eventosNaoFinalizados(@PathVariable Long eventoId) {
+    public ResponseEntity<ApiResponseDTO> finalizarEvento(@PathVariable Long eventoId) {
         eventoService.finalizarEvento(eventoId);
         ApiResponseDTO responseDTO = new ApiResponseDTO("Evento finalizado", HttpStatus.OK);
         return ResponseEntity.status(responseDTO.getStatus()). body(responseDTO);

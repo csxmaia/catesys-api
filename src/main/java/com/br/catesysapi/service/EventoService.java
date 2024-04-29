@@ -21,7 +21,7 @@ public class EventoService {
     }
 
     public List<Evento> getAll() {
-        List<Evento> eventoList = eventoRepository.findAll();
+        List<Evento> eventoList = eventoRepository.findAllByOrderByIdDesc();
         return eventoList;
     }
 
@@ -29,8 +29,8 @@ public class EventoService {
         Evento evento = new Evento();
         evento.setTipo(salvarEventoRequest.getTipo());
         evento.setHorario(salvarEventoRequest.getHorario());
-        Evento eventoList = eventoRepository.save(evento);
-        return evento;
+        Evento evSalvo = eventoRepository.save(evento);
+        return evSalvo;
     }
 
     public List<Evento> getAllNaoFinalizados() {
