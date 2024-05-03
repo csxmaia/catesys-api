@@ -83,7 +83,7 @@ public class TurmaService {
 
     public Turma editarTurma(SalvarTurmaDTORequest salvarTurmaDTORequest) {
         Turma turma = new Turma(salvarTurmaDTORequest.getId());
-        List<Aluno> alunosTurma = alunoRepository.findByTurma_Id(turma.getId());
+        List<Aluno> alunosTurma = alunoRepository.findByTurma_IdOrderByIdDesc(turma.getId());
 
         turma.setEtapa(salvarTurmaDTORequest.getEtapa());
 

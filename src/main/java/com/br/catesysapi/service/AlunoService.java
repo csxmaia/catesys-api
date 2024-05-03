@@ -26,12 +26,12 @@ public class AlunoService {
     final PessoaService pessoaService;
 
     public List<Aluno> getAll() {
-        List<Aluno> alunoList = alunoRepository.findAll();
+        List<Aluno> alunoList = alunoRepository.findAllByOrderByIdDesc();
         return alunoList;
     }
 
     public List<Aluno> getAllByTurmaId(Long turmaId) {
-        List<Aluno> alunoList = alunoRepository.findByTurma_Id(turmaId);
+        List<Aluno> alunoList = alunoRepository.findByTurma_IdOrderByIdDesc(turmaId);
         return alunoList;
     }
 
